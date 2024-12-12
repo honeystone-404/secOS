@@ -20,6 +20,7 @@ ProtectedModeEntry:
     jmp gdt.code:LongModeEntry
 [bits 64]
 %include "boot/src/set_seg.asm"
+%include "boot/src/idt.asm"
 LongModeEntry:
     call set_seg_regs
     mov rsp, 0x80000
@@ -31,6 +32,8 @@ LongModeEntry:
     mov [VGA_ADDR + 8], rsi
     mov rsi, 0x0D640D6c0D720D6f
     mov [VGA_ADDR + 16], rsi
+
+    call init_idt_entry
 
 halt:
     hlt
