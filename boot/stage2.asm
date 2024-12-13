@@ -7,6 +7,7 @@ start:
     mov cr0, eax
     lgdt [gdt32.descriptor]
     jmp gdt32.code:ProtectedModeEntry
+
 [bits 32]
 %include "boot/src/gdt32.asm"
 %include "boot/src/seg_reg32.asm"
@@ -18,14 +19,15 @@ ProtectedModeEntry:
     call setup_paging
     lgdt [gdt.descriptor]
     jmp gdt.code:LongModeEntry
+
 [bits 64]
 %include "boot/src/set_seg.asm"
 %include "boot/lm.asm"
+%include "boot/src/idt.asm"
 LongModeEntry:
     call set_seg_regs
     mov rsp, 0x80000
     mov rbp, rsp
-    ; TODO: Implement IDT
     call LongMode
 halt:
     hlt

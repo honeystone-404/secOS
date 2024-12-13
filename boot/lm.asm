@@ -27,20 +27,18 @@ LongMode:
     mov [brand_string + 40], rcx
     mov [brand_string + 44], rdx
 
-    mov r8, VGA_ADDR
-
     mov rsi, brand
+    mov r8, VGA_ADDR
     mov rcx, 13
     call print
 
     add r8, 2
 
     mov rsi, brand_string
-    mov rcx, 45
+    mov rcx, 49
     call print
 
     ret
 
 brand: times 13 db 0
-brand_string: times 45 db 0
-lf: db 0xa
+brand_string: times 49 db 0
