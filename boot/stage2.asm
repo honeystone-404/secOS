@@ -30,5 +30,3 @@ LongModeEntry:
 halt:
     hlt
     jmp halt
-
-id_string: times 13 db 0
