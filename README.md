@@ -1,6 +1,10 @@
 # secOS
 a simple secure amd64 operating system
-
+# How to run?
+Windows:
+    run
+Linux:
+    make run
 # VGA Display mode
     1.VGA display mode supports 80*25 total characters, 80 character and wide 25 character height.
     2.supports total 16 colors

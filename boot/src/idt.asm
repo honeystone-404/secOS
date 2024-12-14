@@ -1,5 +1,3 @@
-%define ZERO_DIVISION_EXCEPTION     0
-%define PAGE_FAULT                  14
 %define KEYBOARD_INTERRUPTION       33
 struc idt_entry
     .offset_low:        resw 1          ; Lower 16 bits of the ISR address
@@ -31,29 +29,10 @@ idt_descriptor:
 setup_idt:
     
     ; WHAT here?
-    enter_idt_entry zero_division_handler, ZERO_DIVISION_EXCEPTION
-    enter_idt_entry page_fault_handler, PAGE_FAULT
     enter_idt_entry keyboard_handler, KEYBOARD_INTERRUPTION
 
     lidt [idt_descriptor]
     ret
-
-zero_division_handler:
-
-    mov r8, VGA_ADDR
-    mov rsi, z_msg
-    mov rcx, z_msg_len
-    call print
-
-    mov al, 0x20
-    out 0x20, al
-    out 0xa0, al
-    
-    iretq
-
-page_fault_handler:
-    iretq
-
 keyboard_handler:
     push rax
 
@@ -64,5 +43,3 @@ keyboard_handler:
 
     pop rax
     iretq
-z_msg db "Division by zero", 0
-z_msg_len equ $ - z_msg
