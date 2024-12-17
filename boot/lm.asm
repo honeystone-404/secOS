@@ -1,4 +1,6 @@
 %include "boot/src/print.asm"
+%include "boot/src/print_register.asm"
+%include "boot/src/processor_info_and_feature.asm"
 LongMode:
     xor rax, rax
     cpuid
@@ -27,26 +29,9 @@ LongMode:
     mov [brand_string + 40], rcx
     mov [brand_string + 44], rdx
 
-    xor rax, rax
-    mov rax, 1
-    cpuid
+    call pif
 
-    mov r8, 0
-.loop:
-    cmp rdx, r8
-    je ok
-    add r8, 1
-    cmp r8, 0x100000000
-    je end
-    jmp .loop
-ok:
-    mov r8, VGA_ADDR
-    mov rsi, brand
-    mov rcx, 13
-    call print
 end:
     ret
-
 brand: times 13 db 0
 brand_string: times 49 db 0
-revID: times 2 db 0
