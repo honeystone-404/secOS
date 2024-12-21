@@ -17,6 +17,8 @@ gdt:
     db 0x92             ; access byte (P=1, DPL=00, S=1, E=0, DC=0, RW=1, A=0)
     db 0xc0             ; flags (G=1, DB=1, L=0, Reserved=0)
     db 0x00             ; base
+    .tss: equ $ - gdt
+    
     .descriptor:
     dw $ - gdt - 1
     dq gdt

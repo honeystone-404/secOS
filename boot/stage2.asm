@@ -1,5 +1,4 @@
 [org 0x8000]
-%define VGA_ADDR 0xb8000
 start:
     cli
     mov eax, cr0
@@ -23,12 +22,15 @@ ProtectedModeEntry:
 [bits 64]
 %include "boot/src/set_seg.asm"
 %include "boot/lm.asm"
+%include "boot/src/print.asm"
 %include "boot/src/idt.asm"
 LongModeEntry:
     call set_seg_regs
     mov rsp, 0x80000
     mov rbp, rsp
+    call setup_idt
     call LongMode
 halt:
     hlt
     jmp halt
+VGA_ADDR: dq 0xb8000
